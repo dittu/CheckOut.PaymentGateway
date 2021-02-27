@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0FAFDF55-711E-4207-87D8-1BF92E144AFD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{29E5656A-C1FC-4577-BB42-CA3D5AF870F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckOut.PaymentGateway.Core", "src\CheckOut.PaymentGateway.Core\CheckOut.PaymentGateway.Core.csproj", "{94582770-C565-4D78-8546-9535ED4B63D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckOut.PaymentGateway.WebApi", "src\CheckOut.PaymentGateway.WebApi\CheckOut.PaymentGateway.WebApi.csproj", "{2D658BE0-25AE-4F6B-9061-6EE9ABFCB820}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{94582770-C565-4D78-8546-9535ED4B63D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94582770-C565-4D78-8546-9535ED4B63D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94582770-C565-4D78-8546-9535ED4B63D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94582770-C565-4D78-8546-9535ED4B63D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D658BE0-25AE-4F6B-9061-6EE9ABFCB820}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D658BE0-25AE-4F6B-9061-6EE9ABFCB820}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D658BE0-25AE-4F6B-9061-6EE9ABFCB820}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D658BE0-25AE-4F6B-9061-6EE9ABFCB820}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{94582770-C565-4D78-8546-9535ED4B63D4} = {0FAFDF55-711E-4207-87D8-1BF92E144AFD}
+		{2D658BE0-25AE-4F6B-9061-6EE9ABFCB820} = {0FAFDF55-711E-4207-87D8-1BF92E144AFD}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {135B9771-A610-4DB9-90F2-4A2CBFB88FB3}
+	EndGlobalSection
+EndGlobal
