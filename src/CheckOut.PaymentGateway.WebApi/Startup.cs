@@ -77,7 +77,7 @@ namespace CheckOut.PaymentGateway.WebApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider apiVersionDescriptionProvider)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -89,16 +89,7 @@ namespace CheckOut.PaymentGateway.WebApi
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                //c.SwaggerEndpoint("/swagger/v1/swagger.json", "CheckOut.PaymentGateway.WebApi v1")
-
-
-
-                foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json",
-                       description.GroupName.ToUpperInvariant());
-                }
-
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "CheckOut.PaymentGateway.WebApi v1");
             });
 
             app.UseRouting();

@@ -9,7 +9,7 @@ namespace CheckOut.PaymentGateway.Core.Models
 {
     public class PaymentEntry
     {
-        public string Identifier { get; set; }
+        public Guid Identifier { get; set; }
 
         public string MerchantId { get; set; }
         public DateTime RequestDateTime { get; set; }
@@ -20,7 +20,10 @@ namespace CheckOut.PaymentGateway.Core.Models
         public CurrencyCode Currency { get; set; }
         public decimal Amount { get; set; }
         public PaymentStatus Status { get; set; }
-
         public string RefText { get; set; }
+
+        public string BankIdentifier { get; set; }
+
+        public PaymentStatus BankStatus { get; set; }
     }
 }

@@ -22,7 +22,7 @@
             <param name="paymentRequest"></param>
             <returns></returns>
         </member>
-        <member name="M:CheckOut.PaymentGateway.WebApi.Controllers.PaymentsController.GetHelloWorld">
+        <member name="M:CheckOut.PaymentGateway.WebApi.Controllers.PaymentsController.GetPaymentDetails(System.Guid)">
             <summary>
             
             </summary>

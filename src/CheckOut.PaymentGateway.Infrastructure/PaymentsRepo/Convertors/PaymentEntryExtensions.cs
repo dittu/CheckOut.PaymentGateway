@@ -26,13 +26,15 @@ namespace CheckOut.PaymentGateway.Infrastructure.Database.Convertors
             doc[nameof(entry.Amount)] = entry.Amount;
             doc[nameof(entry.Status)] = (int)entry.Status;
             doc[nameof(entry.RefText)] = entry.RefText;
+            doc[nameof(entry.BankIdentifier)] = entry.BankIdentifier;
+            doc[nameof(entry.BankStatus)] = (int)entry.BankStatus;
             return doc;
         }
 
         public static PaymentEntry ConvertToPaymentEntry(Dictionary<string, AttributeValue> attributes)
         {
             PaymentEntry entry = new PaymentEntry();
-            entry.Identifier = attributes[nameof(entry.Identifier)].S;
+            entry.Identifier = Guid.Parse(attributes[nameof(entry.Identifier)].S);
             entry.MerchantId = attributes[nameof(entry.MerchantId)].S;
             entry.RequestDateTime = DateTime.Parse(attributes[nameof(entry.RequestDateTime)].S);
             entry.CardNumber = attributes[nameof(entry.CardNumber)].S;
@@ -43,6 +45,8 @@ namespace CheckOut.PaymentGateway.Infrastructure.Database.Convertors
             entry.Amount = Decimal.Parse(attributes[nameof(entry.Amount)].N);
             entry.Status = (PaymentStatus)Enum.Parse(typeof(PaymentStatus), attributes[nameof(entry.Status)].N);
             entry.RefText = attributes[nameof(entry.RefText)].S;
+            entry.BankIdentifier = attributes[nameof(entry.BankIdentifier)].S;
+            entry.BankStatus = (PaymentStatus)Enum.Parse(typeof(PaymentStatus), attributes[nameof(entry.BankStatus)].N);
             return entry;
 
         }

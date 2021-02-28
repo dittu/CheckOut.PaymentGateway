@@ -8,6 +8,7 @@ namespace CheckOut.PaymentGateway.WebApi.Models
 {
     public class CreatePaymentResponse
     {
+        public string Identifier { get; set; }
         public PaymentStatus Status { get; set; }
     }
 }

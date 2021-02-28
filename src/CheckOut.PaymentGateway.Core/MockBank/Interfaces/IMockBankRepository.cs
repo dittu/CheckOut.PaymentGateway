@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CheckOut.PaymentGateway.Core.MockBank.Interfaces
 {
-    public interface IMockBankApi
+    public interface IMockBankRepository
     {
         public MockBankResponse RequestPayment(MockBankPaymentRequest request);
     }
