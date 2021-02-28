@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CheckOut.PaymentGateway.Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CheckOut.PaymentGateway.WebApi", "src\CheckOut.PaymentGateway.WebApi\CheckOut.PaymentGateway.WebApi.csproj", "{2D658BE0-25AE-4F6B-9061-6EE9ABFCB820}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckOut.PaymentGateway.Console", "src\CheckOut.PaymentGateway.Console\CheckOut.PaymentGateway.Console.csproj", "{3A9A8892-1316-4977-BF2E-55ABCEF68CB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CheckOut.PaymentGateway.Console", "src\CheckOut.PaymentGateway.Console\CheckOut.PaymentGateway.Console.csproj", "{3A9A8892-1316-4977-BF2E-55ABCEF68CB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckOut.PaymentGateway.Infrastructure", "src\CheckOut.PaymentGateway.Infrastructure\CheckOut.PaymentGateway.Infrastructure.csproj", "{21541A75-5489-4B03-945D-638E67103AC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CheckOut.PaymentGateway.Infrastructure", "src\CheckOut.PaymentGateway.Infrastructure\CheckOut.PaymentGateway.Infrastructure.csproj", "{21541A75-5489-4B03-945D-638E67103AC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

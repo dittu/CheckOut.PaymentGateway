@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CheckOut.PaymentGateway.WebApi</name>
+    </assembly>
+    <members>
+        <member name="T:CheckOut.PaymentGateway.WebApi.Controllers.PaymentsController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:CheckOut.PaymentGateway.WebApi.Controllers.PaymentsController.#ctor(CheckOut.PaymentGateway.Core.Interfaces.IPaymentsRepository)">
+            <summary>
+            
+            </summary>
+            <param name="paymentsRepo"></param>
+        </member>
+        <member name="M:CheckOut.PaymentGateway.WebApi.Controllers.PaymentsController.CreatePayment(CheckOut.PaymentGateway.WebApi.Models.CreatePaymentRequest)">
+            <summary>
+            
+            </summary>
+            <param name="paymentRequest"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CheckOut.PaymentGateway.WebApi.Controllers.PaymentsController.GetHelloWorld">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

@@ -7,13 +7,13 @@ using System.Text;
 
 namespace CheckOut.PaymentGateway.Infrastructure.Database.Config
 {
-    public class PaymentTableConfig : ITableConfig
+    public class PaymentsTableConfig : ITableConfig
     {
         private string _tableName;
         private KeyDetails _hashKey;
         private KeyDetails _rangeKey;
 
-        public PaymentTableConfig()
+        public PaymentsTableConfig()
         {
             _tableName = "Payments";
             _hashKey = new KeyDetails()
