@@ -1,0 +1,49 @@
+﻿using Amazon.DynamoDBv2.DocumentModel;
+using Amazon.DynamoDBv2.Model;
+using CheckOut.PaymentGateway.Core.Enum;
+using CheckOut.PaymentGateway.Core.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CheckOut.PaymentGateway.Infrastructure.Database.Convertors
+{
+    public static class PaymentEntryExtensions
+    {
+        public static Document ConvertToDynamoDocument(this PaymentEntry entry)
+        {
+            Document doc = new Document();
+            doc[nameof(entry.Identifier)] = entry.Identifier;
+            doc[nameof(entry.MerchantId)] = entry.MerchantId;
+            doc[nameof(entry.RequestDateTime)] = entry.RequestDateTime;
+            doc[nameof(entry.CardNumber)] = entry.CardNumber;
+            doc[nameof(entry.ExpiryMonth)] = entry.ExpiryMonth;
+            doc[nameof(entry.ExpiryYear)] = entry.ExpiryYear;
+            doc[nameof(entry.Cvv)] = entry.Cvv;
+            doc[nameof(entry.Currency)] = (int)entry.Currency;
+            doc[nameof(entry.Amount)] = entry.Amount;
+            doc[nameof(entry.Status)] = (int)entry.Status;
+
+            return doc;
+        }
+
+        public static PaymentEntry ConvertToPaymentEntry(Dictionary<string, AttributeValue> attributes)
+        {
+            PaymentEntry entry = new PaymentEntry();
+            entry.Identifier = attributes[nameof(entry.Identifier)].S;
+            entry.MerchantId = attributes[nameof(entry.MerchantId)].S;
+            entry.RequestDateTime = DateTime.Parse(attributes[nameof(entry.RequestDateTime)].S);
+            entry.CardNumber = attributes[nameof(entry.CardNumber)].S;
+            entry.ExpiryMonth = int.Parse(attributes[nameof(entry.ExpiryMonth)].N);
+            entry.ExpiryYear = int.Parse(attributes[nameof(entry.ExpiryYear)].N);
+            entry.Cvv = int.Parse(attributes[nameof(entry.Cvv)].N);
+            entry.Currency = (CurrencyCode)Enum.Parse(typeof(CurrencyCode), attributes[nameof(entry.Currency)].N);
+            entry.Amount = Decimal.Parse(attributes[nameof(entry.Amount)].N);
+            entry.Status = (PaymentStatus)Enum.Parse(typeof(PaymentStatus), attributes[nameof(entry.Status)].N);
+            return entry;
+
+        }
+    }
+}
