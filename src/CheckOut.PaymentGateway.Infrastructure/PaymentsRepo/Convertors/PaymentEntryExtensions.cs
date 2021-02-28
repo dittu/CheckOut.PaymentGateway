@@ -25,7 +25,7 @@ namespace CheckOut.PaymentGateway.Infrastructure.Database.Convertors
             doc[nameof(entry.Currency)] = (int)entry.Currency;
             doc[nameof(entry.Amount)] = entry.Amount;
             doc[nameof(entry.Status)] = (int)entry.Status;
-
+            doc[nameof(entry.RefText)] = entry.RefText;
             return doc;
         }
 
@@ -38,10 +38,11 @@ namespace CheckOut.PaymentGateway.Infrastructure.Database.Convertors
             entry.CardNumber = attributes[nameof(entry.CardNumber)].S;
             entry.ExpiryMonth = int.Parse(attributes[nameof(entry.ExpiryMonth)].N);
             entry.ExpiryYear = int.Parse(attributes[nameof(entry.ExpiryYear)].N);
-            entry.Cvv = int.Parse(attributes[nameof(entry.Cvv)].N);
+            entry.Cvv =attributes[nameof(entry.Cvv)].S;
             entry.Currency = (CurrencyCode)Enum.Parse(typeof(CurrencyCode), attributes[nameof(entry.Currency)].N);
             entry.Amount = Decimal.Parse(attributes[nameof(entry.Amount)].N);
             entry.Status = (PaymentStatus)Enum.Parse(typeof(PaymentStatus), attributes[nameof(entry.Status)].N);
+            entry.RefText = attributes[nameof(entry.RefText)].S;
             return entry;
 
         }

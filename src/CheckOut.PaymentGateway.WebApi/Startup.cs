@@ -1,4 +1,6 @@
 using Amazon.DynamoDBv2;
+using CheckOut.PaymentGateway.Core.Interfaces;
+using CheckOut.PaymentGateway.Infrastructure.DynamoDB;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,6 +33,15 @@ namespace CheckOut.PaymentGateway.WebApi
             services.AddControllers();
             services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
             services.AddAWSService<IAmazonDynamoDB>();
+            services.AddScoped<IPaymentsRepository, PaymentRepository>();
+            services.AddApiVersioning(setupAction =>
+            {
+                setupAction.AssumeDefaultVersionWhenUnspecified = true;
+                setupAction.DefaultApiVersion = new ApiVersion(1, 0);
+                setupAction.ReportApiVersions = true;
+                //setupAction.ApiVersionReader = new HeaderApiVersionReader("api-version");
+                //setupAction.ApiVersionReader = new MediaTypeApiVersionReader();
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CheckOut.PaymentGateway.WebApi", Version = "v1" });

@@ -11,12 +11,12 @@ using CheckOut.PaymentGateway.Infrastructure.Database.Convertors;
 
 namespace CheckOut.PaymentGateway.Infrastructure.DynamoDB
 {
-    public class PaymentDataAccess : IPaymentDataAccess
+    public class PaymentRepository : IPaymentsRepository
     {
         public IAmazonDynamoDB _dynamoDB;
         public ITableConfig _paymentConfig;
 
-        public PaymentDataAccess(IAmazonDynamoDB dynamoDB, ITableConfig paymentConfig)
+        public PaymentRepository(IAmazonDynamoDB dynamoDB, ITableConfig paymentConfig)
         {
             _dynamoDB = dynamoDB;
             _paymentConfig = paymentConfig;

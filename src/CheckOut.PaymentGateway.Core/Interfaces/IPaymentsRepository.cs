@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CheckOut.PaymentGateway.Core.Interfaces
 {
-    public interface IPaymentDataAccess
+    public interface IPaymentsRepository
     {
         public Task<BaseResult> AddPayment(PaymentEntry paymentEntry);
 

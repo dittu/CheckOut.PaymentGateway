@@ -16,9 +16,11 @@ namespace CheckOut.PaymentGateway.Core.Models
         public string CardNumber { get; set; }
         public int ExpiryMonth { get; set; }
         public int ExpiryYear { get; set; }
-        public int Cvv { get; set; }
+        public string Cvv { get; set; }
         public CurrencyCode Currency { get; set; }
         public decimal Amount { get; set; }
         public PaymentStatus Status { get; set; }
+
+        public string RefText { get; set; }
     }
 }

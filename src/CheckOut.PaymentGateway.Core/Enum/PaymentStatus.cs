@@ -6,6 +6,7 @@ namespace CheckOut.PaymentGateway.Core.Enum
 {
     public enum PaymentStatus
     {
+        Unknown = 0,
         Pending = 1,
         Authorized = 2,
         CardVerified = 3,
