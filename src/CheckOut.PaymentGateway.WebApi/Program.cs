@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Serilog;
 using Serilog.Formatting.Json;
+using Serilog.Events;
 
 namespace CheckOut.PaymentGateway.WebApi
 {
@@ -23,9 +24,15 @@ namespace CheckOut.PaymentGateway.WebApi
         {
             Log.Logger = new LoggerConfiguration()
                             .ReadFrom.Configuration(Configuration)
-                            .WriteTo.File(new JsonFormatter(), @"c:\code\logs\checkout-log.json", shared: true)
+                            .WriteTo
+                            .AmazonS3(path:"log.txt",
+                                      bucketName:"checkout-logging",
+                                      endpoint: Amazon.RegionEndpoint.EUWest1,
+                                      restrictedToMinimumLevel: LogEventLevel.Verbose,
+                                      outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}",
+                                      rollingInterval: Serilog.Sinks.AmazonS3.RollingInterval.Minute)
                             .CreateLogger();
-
+            
             try
             {
                 Log.Information("Starting web host");
