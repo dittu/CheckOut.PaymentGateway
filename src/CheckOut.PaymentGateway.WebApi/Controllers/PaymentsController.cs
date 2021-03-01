@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace CheckOut.PaymentGateway.WebApi.Controllers
@@ -22,6 +23,7 @@ namespace CheckOut.PaymentGateway.WebApi.Controllers
     [Consumes("application/json")]
     [Produces("application/json")]
     [Route("api/v1/[controller]")]
+    [Authorize]
     public class PaymentsController : ControllerBase
     {
         private IPaymentsRepository _paymentRepo;
@@ -54,8 +56,13 @@ namespace CheckOut.PaymentGateway.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreatePayment([FromBody] CreatePaymentRequest paymentRequest)
         {
-            //TODO: Add Validation
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+
+            string merchantId = identity.FindFirst("MerchantId").Value;
+
             var paymentEntry = paymentRequest.ConvertToPaymentEntry();
+
+            paymentEntry.MerchantId = merchantId;
 
             await _paymentRepo.AddPayment(paymentEntry);
 

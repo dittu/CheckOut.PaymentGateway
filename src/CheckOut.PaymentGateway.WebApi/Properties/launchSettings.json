@@ -9,7 +9,9 @@
     }
   },
   "JwtSettings": {
-    "Secret": "CheckoutPaymentGatewaySecret1234"
+    "Secret": "CheckoutPaymentGatewaySecret1234",
+    "ValidAudience": "User",
+    "ValidIssuer": "https://localhost:5001"
   },
   "profiles": {
     "IIS Express": {
