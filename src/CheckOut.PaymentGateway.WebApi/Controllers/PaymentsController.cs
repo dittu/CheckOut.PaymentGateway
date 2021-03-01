@@ -51,6 +51,7 @@ namespace CheckOut.PaymentGateway.WebApi.Controllers
         /// <param name="paymentRequest"></param>
         /// <returns></returns>
         [HttpPost]
+        [Route("createPayment")]
         [ProducesResponseType(typeof(CreatePaymentResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -89,6 +90,7 @@ namespace CheckOut.PaymentGateway.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet()]
+        [Route("getPaymentDetails")]
         [ProducesResponseType(typeof(PaymentDetailsResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
