@@ -31,6 +31,7 @@ using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using CheckOut.PaymentGateway.WebApi.Middleware.Filters;
+using CheckOut.PaymentGateway.WebApi.Middleware.ExceptionHandling;
 
 namespace CheckOut.PaymentGateway.WebApi
 {
@@ -50,6 +51,9 @@ namespace CheckOut.PaymentGateway.WebApi
             Configuration.Bind(nameof(jwtSettings), jwtSettings);
 
             services.AddSingleton(jwtSettings);
+
+            var apiExceptionOptions = new ApiExceptionOptions();
+            Configuration.Bind(nameof(apiExceptionOptions), apiExceptionOptions);
 
             services.AddAuthentication(x =>
             {
@@ -143,10 +147,7 @@ namespace CheckOut.PaymentGateway.WebApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            app.UseApiExceptionHandler();
 
             app.UseHttpsRedirection();
 

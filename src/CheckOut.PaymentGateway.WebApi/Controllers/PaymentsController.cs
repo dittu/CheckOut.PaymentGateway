@@ -88,6 +88,7 @@ namespace CheckOut.PaymentGateway.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetPaymentDetails([FromBody] GetPaymentDetailsRequest paymentDetailsRequest)
         {
+            throw new Exception("Unable to fetch data.");
             _logger.LogInformation($"GetPaymentDetails requested");
 
             var res = await _paymentRepo.GetPaymentEntry(paymentDetailsRequest.PaymentIdentifier);
