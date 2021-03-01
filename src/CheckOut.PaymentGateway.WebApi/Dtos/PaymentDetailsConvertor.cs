@@ -1,4 +1,5 @@
 ﻿using CheckOut.PaymentGateway.Core.Models;
+using CheckOut.PaymentGateway.WebApi.Extensions;
 using CheckOut.PaymentGateway.WebApi.Models;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace CheckOut.PaymentGateway.WebApi.Dtos
                 Reference = entry.RefText,
                 CardDetails = new CardDetails()
                 {
-                    CardNumber = entry.CardNumber,
+                    CardNumber = entry.CardNumber.MaskCardNumber(),
                     Cvv = entry.Cvv,
                     ExpiryMonth = entry.ExpiryMonth,
                     ExpiryYear = entry.ExpiryYear,

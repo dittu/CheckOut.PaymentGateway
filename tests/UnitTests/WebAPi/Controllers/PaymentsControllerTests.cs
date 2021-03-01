@@ -3,6 +3,7 @@ using CheckOut.PaymentGateway.Core.MockBank.Interfaces;
 using CheckOut.PaymentGateway.Core.MockBank.Models;
 using CheckOut.PaymentGateway.Core.Models;
 using CheckOut.PaymentGateway.WebApi.Controllers;
+using CheckOut.PaymentGateway.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
@@ -37,7 +38,7 @@ namespace UnitTests.WebAPi.Controllers
         public async Task GetPaymentsWithOutAnyExistingShouldHaveResponse()
         {
             MockPaymentsRepository.Setup(x => x.GetPaymentEntry(It.IsAny<Guid>())).ReturnsAsync(new GetPaymentEntryResult() { Success = true, PaymentEntry = null });
-            var response = await this.Controller.GetPaymentDetails(Guid.NewGuid()) as NotFoundResult;
+            var response = await this.Controller.GetPaymentDetails(It.IsAny<GetPaymentDetailsRequest>()) as NotFoundResult;
 
             Assert.IsNotNull(response);
             Assert.AreEqual(404, response.StatusCode);
@@ -47,7 +48,7 @@ namespace UnitTests.WebAPi.Controllers
         public async Task GetPaymentsWithExistingPaymentsShouldReturnData()
         {
             MockPaymentsRepository.Setup(x => x.GetPaymentEntry(It.IsAny<Guid>())).ReturnsAsync(new GetPaymentEntryResult() { Success = true, PaymentEntry = FakePaymentData.FakePaymentEntryData() });
-            var response = await this.Controller.GetPaymentDetails(Guid.NewGuid()) as OkObjectResult;
+            var response = await this.Controller.GetPaymentDetails(It.IsAny<GetPaymentDetailsRequest>()) as OkObjectResult;
 
             Assert.IsNotNull(response);
             Assert.IsNotNull(response.Value);

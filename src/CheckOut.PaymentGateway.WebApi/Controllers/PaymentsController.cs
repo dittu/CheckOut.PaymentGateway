@@ -3,6 +3,8 @@ using CheckOut.PaymentGateway.Core.MockBank.Interfaces;
 using CheckOut.PaymentGateway.Core.Models;
 using CheckOut.PaymentGateway.WebApi.Dtos;
 using CheckOut.PaymentGateway.WebApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -42,7 +44,7 @@ namespace CheckOut.PaymentGateway.WebApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(typeof(CreatePaymentResponse), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreatePayment([FromBody] CreatePaymentRequest paymentRequest)
         {
@@ -72,14 +74,14 @@ namespace CheckOut.PaymentGateway.WebApi.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
-        [HttpGet("{identifier:guid}")]
+        [HttpGet()]
         [ProducesResponseType(typeof(PaymentDetailsResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetPaymentDetails([FromRoute] Guid identifier)
+        public async Task<IActionResult> GetPaymentDetails([FromBody] GetPaymentDetailsRequest paymentDetailsRequest)
         {
-            var res = await _paymentRepo.GetPaymentEntry(identifier);
+            var res = await _paymentRepo.GetPaymentEntry(paymentDetailsRequest.PaymentIdentifier);
 
             if (res.Success) {
                 if (res.PaymentEntry == null)

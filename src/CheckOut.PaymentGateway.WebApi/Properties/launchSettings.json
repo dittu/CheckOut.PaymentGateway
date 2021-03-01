@@ -8,6 +8,9 @@
       "sslPort": 44360
     }
   },
+  "JwtSettings": {
+    "Secret": "CheckoutPaymentGatewaySecret1234"
+  },
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",

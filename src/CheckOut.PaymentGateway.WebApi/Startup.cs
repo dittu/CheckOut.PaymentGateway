@@ -4,6 +4,8 @@ using CheckOut.PaymentGateway.Core.MockBank.Interfaces;
 using CheckOut.PaymentGateway.Infrastructure.Database.Config;
 using CheckOut.PaymentGateway.Infrastructure.DynamoDB;
 using CheckOut.PaymentGateway.Infrastructure.MockBank;
+using CheckOut.PaymentGateway.WebApi.Options;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -16,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
@@ -23,7 +26,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using CheckOut.PaymentGateway.WebApi.Middleware.Filters;
 
 namespace CheckOut.PaymentGateway.WebApi
 {
@@ -39,7 +46,33 @@ namespace CheckOut.PaymentGateway.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var jwtSettings = new JwtSettings();
+            Configuration.Bind(nameof(jwtSettings), jwtSettings);
 
+            services.AddSingleton(jwtSettings);
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x => 
+            {
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    RequireExpirationTime = false,
+                    ValidateLifetime = true
+                };
+
+            });
+
+            services.AddMvc(options => options.Filters.Add<ValidationFilter>())
+                    .AddFluentValidation(c => c.RegisterValidatorsFromAssemblyContaining<Startup>());
             services.AddControllers();
             services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
             services.AddAWSService<IAmazonDynamoDB>();
@@ -75,6 +108,34 @@ namespace CheckOut.PaymentGateway.WebApi
                 var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
 
                 setupAction.IncludeXmlComments(xmlCommentsFullPath);
+
+                setupAction.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "Enter 'Bearer' [space] and then your valid token in the text input below.\r\n\r\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"",
+                });
+
+                setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            Array.Empty<string>()
+                        }
+                    });
+
+
+
             });
 
         }
@@ -89,15 +150,20 @@ namespace CheckOut.PaymentGateway.WebApi
 
             app.UseHttpsRedirection();
 
+            app.UseRouting();
+
+
+            app.UseAuthentication();
+
+            app.UseAuthorization();
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "CheckOut.PaymentGateway.WebApi v1");
+                
             });
 
-            app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
