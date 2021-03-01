@@ -77,6 +77,7 @@ namespace CheckOut.PaymentGateway.WebApi
 
             services.AddMvc(options => options.Filters.Add<ValidationFilter>())
                     .AddFluentValidation(c => c.RegisterValidatorsFromAssemblyContaining<Startup>());
+            services.AddMetrics();
             services.AddControllers();
             services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
             services.AddAWSService<IAmazonDynamoDB>();
