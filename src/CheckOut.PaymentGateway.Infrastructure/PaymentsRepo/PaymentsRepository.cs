@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CheckOut.PaymentGateway.Infrastructure.Database.Convertors;
+using Microsoft.Extensions.Logging;
 
 namespace CheckOut.PaymentGateway.Infrastructure.DynamoDB
 {
@@ -15,15 +16,19 @@ namespace CheckOut.PaymentGateway.Infrastructure.DynamoDB
     {
         public IAmazonDynamoDB _dynamoDB;
         public ITableConfig _paymentConfig;
+        public ILogger _logger;
 
-        public PaymentsRepository(IAmazonDynamoDB dynamoDB, ITableConfig paymentConfig)
+        public PaymentsRepository(IAmazonDynamoDB dynamoDB, ITableConfig paymentConfig, ILogger<PaymentsRepository> logger)
         {
             _dynamoDB = dynamoDB;
             _paymentConfig = paymentConfig;
+            _logger = logger;
         }
 
         public async Task<BaseResult> AddPayment(PaymentEntry paymentEntry)
         {
+            _logger.LogDebug($"Initiating AddPayment Operation");
+
             BaseResult res = new BaseResult();
 
             PutItemRequest putRequest = new PutItemRequest
@@ -43,12 +48,16 @@ namespace CheckOut.PaymentGateway.Infrastructure.DynamoDB
 
             res.Message = $"DynamoDB Response HttpStatusCode: {response.HttpStatusCode}";
 
+            _logger.LogDebug($"{res.Message}");
+
             return res;
 
         }
 
         public async Task<GetPaymentEntryResult> GetPaymentEntry(Guid paymentIdentifier)
         {
+            _logger.LogDebug($"Initiating QueryPayment Operation");
+
             GetPaymentEntryResult res = new GetPaymentEntryResult();
 
             QueryRequest request = new QueryRequest
@@ -75,6 +84,9 @@ namespace CheckOut.PaymentGateway.Infrastructure.DynamoDB
                     res.PaymentEntry = PaymentEntryExtensions.ConvertToPaymentEntry(queryResponse.Items.First());
 
             res.Message = $"DynamoDB Response HttpStatusCode: {queryResponse.HttpStatusCode}. ItemCount: {queryResponse.Items.Count}";
+
+            _logger.LogDebug($"{res.Message}");
+
 
             return res;
         }

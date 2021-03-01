@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,16 +26,21 @@ namespace CheckOut.PaymentGateway.WebApi.Controllers
     {
         private IPaymentsRepository _paymentRepo;
         private IMockBankRepository _mockBankRepo;
+        private ILogger _logger;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="paymentsRepo"></param>
         /// <param name="mockBankRepo"></param>
-        public PaymentsController(IPaymentsRepository paymentsRepo, IMockBankRepository mockBankRepo)
+        /// <param name="logger"></param>
+        public PaymentsController(IPaymentsRepository paymentsRepo,
+                                  IMockBankRepository mockBankRepo,
+                                  ILogger<PaymentsController> logger)
         {
-            _paymentRepo = paymentsRepo;
-            _mockBankRepo = mockBankRepo;
+            _paymentRepo = paymentsRepo ?? throw new ArgumentNullException(nameof(paymentsRepo));
+            _mockBankRepo = mockBankRepo ?? throw new ArgumentNullException(nameof(mockBankRepo));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <summary>
@@ -55,7 +61,7 @@ namespace CheckOut.PaymentGateway.WebApi.Controllers
 
             var bankRequest = paymentRequest.ConvertToMockPaymentRequest();
 
-            var requestPaymentResponse =  _mockBankRepo.RequestPayment(bankRequest);
+            var requestPaymentResponse = _mockBankRepo.RequestPayment(bankRequest);
 
             paymentEntry.Status = requestPaymentResponse.Status;
             paymentEntry.BankIdentifier = requestPaymentResponse.Identifier;
@@ -64,7 +70,8 @@ namespace CheckOut.PaymentGateway.WebApi.Controllers
             //TODO: Replace with partial update
             await _paymentRepo.AddPayment(paymentEntry);
 
-            return CreatedAtAction(nameof(CreatePayment), new CreatePaymentResponse() { 
+            return CreatedAtAction(nameof(CreatePayment), new CreatePaymentResponse()
+            {
                 Identifier = paymentEntry.Identifier.ToString(),
                 Status = paymentEntry.Status
             });
@@ -81,14 +88,17 @@ namespace CheckOut.PaymentGateway.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetPaymentDetails([FromBody] GetPaymentDetailsRequest paymentDetailsRequest)
         {
+            _logger.LogInformation($"GetPaymentDetails requested");
+
             var res = await _paymentRepo.GetPaymentEntry(paymentDetailsRequest.PaymentIdentifier);
 
-            if (res.Success) {
+            if (res.Success)
+            {
                 if (res.PaymentEntry == null)
                     return NotFound();
                 else
                     return Ok(res.PaymentEntry.ConvertToPaymentDetails());
-                }
+            }
             else
                 throw new Exception("Unable to fetch data.");
         }
