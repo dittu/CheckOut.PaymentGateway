@@ -1,6 +1,7 @@
 ﻿using CheckOut.PaymentGateway.Core.Interfaces;
 using CheckOut.PaymentGateway.Core.MockBank.Interfaces;
 using CheckOut.PaymentGateway.Core.Models;
+using CheckOut.PaymentGateway.WebApi.Dtos;
 using CheckOut.PaymentGateway.WebApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -43,10 +44,28 @@ namespace CheckOut.PaymentGateway.WebApi.Controllers
         [ProducesResponseType(typeof(CreatePaymentResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult CreatePayment([FromBody] CreatePaymentRequest paymentRequest)
+        public async Task<IActionResult> CreatePayment([FromBody] CreatePaymentRequest paymentRequest)
         {
             //TODO: Add Validation
-            
+            var paymentEntry = paymentRequest.ConvertToPaymentEntry();
+
+            await _paymentRepo.AddPayment(paymentEntry);
+
+            var bankRequest = paymentRequest.ConvertToMockPaymentRequest();
+
+            var requestPaymentResponse =  _mockBankRepo.RequestPayment(bankRequest);
+
+            paymentEntry.Status = requestPaymentResponse.Status;
+            paymentEntry.BankIdentifier = requestPaymentResponse.Identifier;
+            paymentEntry.BankStatus = requestPaymentResponse.Status;
+
+            //TODO: Replace with partial update
+            await _paymentRepo.AddPayment(paymentEntry);
+
+            return CreatedAtAction(nameof(CreatePayment), new CreatePaymentResponse() { 
+                Identifier = paymentEntry.Identifier.ToString(),
+                Status = paymentEntry.Status
+            });
         }
 
         /// <summary>
@@ -58,9 +77,18 @@ namespace CheckOut.PaymentGateway.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult GetPaymentDetails([FromRoute] Guid identifier)
+        public async Task<IActionResult> GetPaymentDetails([FromRoute] Guid identifier)
         {
-            return Ok(new BaseResult() { Success = true, Message = "Hello World" });
+            var res = await _paymentRepo.GetPaymentEntry(identifier);
+
+            if (res.Success) {
+                if (res.PaymentEntry == null)
+                    return NotFound();
+                else
+                    return Ok(res.PaymentEntry.ConvertToPaymentDetails());
+                }
+            else
+                throw new Exception("Unable to fetch data.");
         }
 
     }

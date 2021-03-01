@@ -9,11 +9,12 @@
             
             </summary>
         </member>
-        <member name="M:CheckOut.PaymentGateway.WebApi.Controllers.PaymentsController.#ctor(CheckOut.PaymentGateway.Core.Interfaces.IPaymentsRepository)">
+        <member name="M:CheckOut.PaymentGateway.WebApi.Controllers.PaymentsController.#ctor(CheckOut.PaymentGateway.Core.Interfaces.IPaymentsRepository,CheckOut.PaymentGateway.Core.MockBank.Interfaces.IMockBankRepository)">
             <summary>
             
             </summary>
             <param name="paymentsRepo"></param>
+            <param name="mockBankRepo"></param>
         </member>
         <member name="M:CheckOut.PaymentGateway.WebApi.Controllers.PaymentsController.CreatePayment(CheckOut.PaymentGateway.WebApi.Models.CreatePaymentRequest)">
             <summary>

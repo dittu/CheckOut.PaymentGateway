@@ -1,7 +1,9 @@
 using Amazon.DynamoDBv2;
 using CheckOut.PaymentGateway.Core.Interfaces;
+using CheckOut.PaymentGateway.Core.MockBank.Interfaces;
 using CheckOut.PaymentGateway.Infrastructure.Database.Config;
 using CheckOut.PaymentGateway.Infrastructure.DynamoDB;
+using CheckOut.PaymentGateway.Infrastructure.MockBank;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -43,6 +45,7 @@ namespace CheckOut.PaymentGateway.WebApi
             services.AddAWSService<IAmazonDynamoDB>();
             services.AddScoped<ITableConfig, PaymentsTableConfig>();
             services.AddScoped<IPaymentsRepository, PaymentsRepository>();
+            services.AddScoped<IMockBankRepository, MockBankRepository>();
 
          
             services.AddApiVersioning(setupAction =>

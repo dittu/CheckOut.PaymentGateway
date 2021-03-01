@@ -13,6 +13,8 @@ namespace CheckOut.PaymentGateway.Core.Models
 
         public string MerchantId { get; set; }
         public DateTime RequestDateTime { get; set; }
+
+        public string HolderName { get; set; }
         public string CardNumber { get; set; }
         public int ExpiryMonth { get; set; }
         public int ExpiryYear { get; set; }

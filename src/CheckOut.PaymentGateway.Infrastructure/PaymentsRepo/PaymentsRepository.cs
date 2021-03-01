@@ -47,7 +47,7 @@ namespace CheckOut.PaymentGateway.Infrastructure.DynamoDB
 
         }
 
-        public async Task<GetPaymentEntryResult> GetPaymentEntry(string paymentIdentifier)
+        public async Task<GetPaymentEntryResult> GetPaymentEntry(Guid paymentIdentifier)
         {
             GetPaymentEntryResult res = new GetPaymentEntryResult();
 
@@ -59,7 +59,7 @@ namespace CheckOut.PaymentGateway.Infrastructure.DynamoDB
                       _paymentConfig.HashKey.ColumnName,
                         new Condition {
                             ComparisonOperator = ComparisonOperator.EQ,
-                            AttributeValueList = new List<AttributeValue> { new AttributeValue { S = paymentIdentifier } }
+                            AttributeValueList = new List<AttributeValue> { new AttributeValue { S = paymentIdentifier.ToString() } }
                         }
 
                     }

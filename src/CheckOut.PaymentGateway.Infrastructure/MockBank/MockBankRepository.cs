@@ -12,7 +12,7 @@ namespace CheckOut.PaymentGateway.Infrastructure.MockBank
     {
         public MockBankResponse RequestPayment(MockBankPaymentRequest request)
         {
-            MockBankResponse resp = null;
+            MockBankResponse resp = new MockBankResponse();
 
             switch (request.Amount)
             {

@@ -10,7 +10,7 @@ namespace CheckOut.PaymentGateway.Core.MockBank.Models
     {
         public string CardNumber { get; set; }
 
-        public int Cvv { get; set; }
+        public string Cvv { get; set; }
 
         public int ExpiryYear { get; set; }
 
@@ -19,5 +19,6 @@ namespace CheckOut.PaymentGateway.Core.MockBank.Models
         public Decimal Amount { get; set; }
 
         public string HolderName { get; set; }
+        public string CurrencyCode { get; set; }
     }
 }

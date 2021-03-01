@@ -11,6 +11,6 @@ namespace CheckOut.PaymentGateway.Core.Interfaces
     {
         public Task<BaseResult> AddPayment(PaymentEntry paymentEntry);
 
-        public Task<GetPaymentEntryResult> GetPaymentEntry(string paymentIdentifier);
+        public Task<GetPaymentEntryResult> GetPaymentEntry(Guid paymentIdentifier);
     }
 }

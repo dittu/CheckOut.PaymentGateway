@@ -18,6 +18,7 @@ namespace CheckOut.PaymentGateway.Infrastructure.Database.Convertors
             doc[nameof(entry.Identifier)] = entry.Identifier;
             doc[nameof(entry.MerchantId)] = entry.MerchantId;
             doc[nameof(entry.RequestDateTime)] = entry.RequestDateTime;
+            doc[nameof(entry.HolderName)] = entry.HolderName;
             doc[nameof(entry.CardNumber)] = entry.CardNumber;
             doc[nameof(entry.ExpiryMonth)] = entry.ExpiryMonth;
             doc[nameof(entry.ExpiryYear)] = entry.ExpiryYear;
@@ -37,6 +38,7 @@ namespace CheckOut.PaymentGateway.Infrastructure.Database.Convertors
             entry.Identifier = Guid.Parse(attributes[nameof(entry.Identifier)].S);
             entry.MerchantId = attributes[nameof(entry.MerchantId)].S;
             entry.RequestDateTime = DateTime.Parse(attributes[nameof(entry.RequestDateTime)].S);
+            entry.HolderName = attributes[nameof(entry.HolderName)].S;
             entry.CardNumber = attributes[nameof(entry.CardNumber)].S;
             entry.ExpiryMonth = int.Parse(attributes[nameof(entry.ExpiryMonth)].N);
             entry.ExpiryYear = int.Parse(attributes[nameof(entry.ExpiryYear)].N);
